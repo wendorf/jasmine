@@ -34,6 +34,7 @@ getJasmineRequireObj().core = function(jRequire) {
   j$.version = jRequire.version();
 
   j$.matchers = jRequire.requireMatchers(jRequire, j$);
+  j$.equalityTesters = jRequire.requireEqualityTesters(jRequire, j$);
 
   return j$;
 };
