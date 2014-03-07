@@ -1,7 +1,7 @@
 getJasmineRequireObj().differingTypeEquality = function() {
   function differingTypeEquality(a, b, util, customEqualityTesters) {
     var className = Object.prototype.toString.call(a);
-    if (className != toString.call(b)) { return false; }
+    if (className != Object.prototype.toString.call(b)) { return false; }
     switch (className) {
       // Strings, numbers, dates, and booleans are compared by value.
       case '[object String]':
