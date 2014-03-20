@@ -1,0 +1,16 @@
+{
+  "spec_dir": "spec",
+  "spec_files": [
+    "core/**/*.js",
+    "console/**/*.js"
+  ],
+  "src_dir": "src",
+  "src_files": [
+    "core/**/*.js",
+    "console/**/*.js",
+    "version.js"
+  ],
+  "helpers": [
+    "helpers/nodeDefineJasmineUnderTest.js"
+  ]
+}
