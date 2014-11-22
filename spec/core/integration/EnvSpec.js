@@ -1159,6 +1159,30 @@ describe("Env integration", function() {
     expect(doublyNestedSpec.getFullName()).toBe("my tests are sometimes even doubly nested");
   });
 
+  it("should be possible to get the parent suite from a spec", function() {
+    var env = new j$.Env({global: { setTimeout: setTimeout }}),
+        spec;
+
+    var parentSuite = env.describe("my tests", function() {
+      spec = env.it("can know their parents", function() {
+      });
+    });
+
+    expect(spec.parentSuite).toBe(parentSuite);
+  });
+
+  it("should be possible to get the line number and file name from a spec", function() {
+    var env = new j$.Env({global: { setTimeout: setTimeout }}),
+        spec;
+
+    var parentSuite = env.describe("my tests", function() {
+      spec = env.it("can know their parents", function() {
+      });
+    });
+
+    expect(spec.parentSuite).toBe(parentSuite);
+  });
+
   it("Custom equality testers should be per spec", function(done) {
     var env = new j$.Env({global: { setTimeout: setTimeout }}),
         reporter = jasmine.createSpyObj('fakeReporter', [

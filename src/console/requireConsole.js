@@ -9,4 +9,5 @@ function getJasmineRequireObj() {
 
 getJasmineRequireObj().console = function(jRequire, j$) {
   j$.ConsoleReporter = jRequire.ConsoleReporter();
+  j$.LineSpecFilter = jRequire.LineSpecFilter();
 };

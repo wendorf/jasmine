@@ -264,6 +264,8 @@ getJasmineRequireObj().Env = function(j$) {
 
     this.describe = function(description, specDefinitions) {
       var suite = suiteFactory(description);
+
+      suite.callInfo = callInfo(specDefinitions, 3);
       addSpecsToSuite(suite, specDefinitions);
       return suite;
     };
@@ -355,10 +357,12 @@ getJasmineRequireObj().Env = function(j$) {
         queueableFn: {
           fn: fn,
           timeout: function() { return timeout || j$.DEFAULT_TIMEOUT_INTERVAL; }
-        }
+        },
+        parentSuite: suite
       });
 
       runnableLookupTable[spec.id] = spec;
+      spec.callInfo = callInfo(fn, 4);
 
       if (!self.specFilter(spec)) {
         spec.disable();
@@ -378,6 +382,33 @@ getJasmineRequireObj().Env = function(j$) {
         reporter.specStarted(spec.result);
       }
     };
+
+    function stack() {
+      var orig = Error.prepareStackTrace;
+      Error.prepareStackTrace = function (_, stack) {
+        return stack;
+      };
+      var err = new Error;
+      Error.captureStackTrace(err, arguments.callee);
+      var stack = err.stack;
+      Error.prepareStackTrace = orig;
+      return stack;
+    }
+
+    function line(depth) {
+      var stackLine = stack()[depth];
+      return {
+        lineNumber: stackLine.getLineNumber(),
+        fileName: stackLine.getFileName()
+      };
+    }
+
+    function callInfo(fn, depth) {
+      var stackInfo = line(depth);
+      var fnLength = fn.toString().split('\n').length;
+      stackInfo.lastLine = stackInfo.lineNumber + fnLength - 1;
+      return stackInfo;
+    }
 
     this.it = function(description, fn, timeout) {
       var spec = specFactory(description, fn, currentDeclarationSuite, timeout);

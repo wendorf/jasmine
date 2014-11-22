@@ -12,6 +12,7 @@ getJasmineRequireObj().Spec = function(j$) {
     this.expectationResultFactory = attrs.expectationResultFactory || function() { };
     this.queueRunnerFactory = attrs.queueRunnerFactory || function() {};
     this.catchingExceptions = attrs.catchingExceptions || function() { return true; };
+    this.parentSuite = attrs.parentSuite;
 
     if (!this.queueableFn.fn) {
       this.pend();
